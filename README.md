@@ -1,3 +1,42 @@
+## Setting up Github Pages deployment for Create React App
+
+Install `gh-pages` package.
+
+In `package.json` specify a `homepage` property, that correlates to the URL of your deployed project, eg.:
+
+```
+"homepage": "https://daniil.github.io/react-github-pages"
+```
+
+The value follows this pattern: `https://$GITHUB_USERNAME.github.io/$REPO_NAME`.
+
+In `"scripts"` portion of `package.json` add new scripts for deploying your app:
+
+```
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build"
+```
+
+Also change the existing `build` script to be following:
+
+```
+"build": "react-scripts build && cp build/index.html build/404.html"
+```
+
+This is required for a `BrowserRouter` to work correctly.
+
+In your `<BrowserRouter>` component instantiation, add a `basename` prop, eg:
+
+```
+<BrowserRouter basename={process.env.PUBLIC_URL + '/'}>
+````
+
+This also ensures the client side routing works properly on deployed app.
+
+When you are ready to deploy, run `npm run deploy` command. You don't have to have your current code committed to deploy it.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
